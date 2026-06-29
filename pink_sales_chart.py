@@ -43,7 +43,7 @@ app.layout = html.Div(children=[
             figure=fig
         )
     ], className="container")
-    
+
 ], className='p-4')
 
 @app.callback(
@@ -52,12 +52,34 @@ app.layout = html.Div(children=[
 )
 def update_graph(selected_region):
     if selected_region == 'all':
-        filtered_df = df
+        filtered_df = df.groupby('date', as_index=False)['sales'].sum()
+        line_width = 3.5
+        color = 'black'
+        title = 'Pink Morse Sales - All Regions'
     else:
         filtered_df = df[df['region'] == selected_region]
+        line_width = 2.8
+        region_colors = {
+            'north': 'red',
+            'east': 'blue',
+            'south': 'green',
+            'west': 'orange'
+        }
+        color = region_colors.get(selected_region.lower(), 'blue')
+        title = f'Pink Morsel Sales - {selected_region.title()} Region'
 
-    updated_fig = px.line(filtered_df, x='date', y='sales', title='Pink Morsel Sales')
-    return updated_fig
+    fig = px.line(
+        filtered_df,
+        x='date',
+        y='sales',
+        title=title,
+        color_discrete_sequence=[color] # forcing single color
+    )
+
+    fig.update_layout(height=650, title_font_size=20)
+    fig.update_traces(line=dict(width=line_width))
+
+    return fig
 
 if __name__ == '__main__':
     app.run(debug=True)
