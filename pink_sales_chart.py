@@ -1,5 +1,5 @@
 from dash import Dash, html, dcc
-
+from dash.dependencies import Input, Output
 import pandas as pd
 import plotly.express as px
 
@@ -23,19 +23,28 @@ options = [
 ]
 
 app.layout = html.Div(children=[
-    html.H1(children='Pink Morsels Sales Over Time'),
     
-    # radio button
-    dcc.RadioItems(
-        id='region_filter',
-        options=options,
-        value='all' # This sets the default starting choice
-    ),
+    # filters
+    html.Div([
+        html.Label('Filter by Region:', className="mg-2"),
+        dcc.RadioItems(
+            id='region_filter',
+            options=options, 
+            value='all',
+            inline=True,
+            className='mb-3'
+        ),
+    ], className="container p-4 mb-4"),
 
-    dcc.Graph(
-        id='sales_line_chart',
-        figure=fig)
-])
+    # graph container
+    html.Div([
+        dcc.Graph(
+            id='sales_line_chart',
+            figure=fig
+        )
+    ], className="container")
+    
+], className='p-4')
 
 @app.callback(
     Output('sales_line_chart', 'figure'),
@@ -47,7 +56,7 @@ def update_graph(selected_region):
     else:
         filtered_df = df[df['region'] == selected_region]
 
-    updated_fig = px.line(filtered_df, x='date', y='sales')
+    updated_fig = px.line(filtered_df, x='date', y='sales', title='Pink Morsel Sales')
     return updated_fig
 
 if __name__ == '__main__':

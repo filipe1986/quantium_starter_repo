@@ -1,0 +1,42 @@
+/* background and layout */
+body {
+    background-color: #f4f6f9;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.container {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    padding: 24px;
+    margin-bottom: 24px;
+}
+
+h1 {
+    color: #1e3a8a;
+    font-weight: 600;
+}
+
+label {
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* radio buttons*/
+.dcc-radio-item {
+    margin-right: 20px;
+    font-size: 16px;
+}
+
+/* graph container*/
+.container:last-child {
+    padding: 16px;
+}
+
+.dash-graph {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
